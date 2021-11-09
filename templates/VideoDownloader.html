@@ -1,0 +1,221 @@
+{% load static %}
+
+<!DOCTYPE html>
+<head>
+<title>Video Downloader</title>
+<link rel = "icon" href = "{% static "/images/VideoDownloader.png" %}"type = "image/x-icon">
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+</head>
+<body>
+
+
+<div style="width: 200px;
+  position: relative;
+  top: 50%;
+  transform: translateY(+50%);
+  display: block;
+  background-color: #eee;
+  margin-left: auto;
+  margin-right: auto;">
+
+<input type="radio" id="facebook" name="foo" value="Facebook">
+<label for="html">Facebook</label><br>
+<input type="radio" id="instagram" name="foo" value="Instagram">
+<label for="html">Instagram</label><br><br>
+
+
+
+
+<form class="instaform" action="/VideoDownloader/downloadinsta" method="POST" >
+{% csrf_token %}
+<label for="link">Paste Link:</label>
+<input type="text" id="instalink" name="link">
+<label for="username" class="username">Username:</label>
+<input type="text" class="username" id="username" name="username">
+<label for="password" class="password">Password:</label>
+<input type="text" class="password" id="password" name="password">
+<br><br>
+<input type="submit" value="Proceed">
+<br><br>
+</form>
+<a class="instabutton" style=" background-color: #0044ff; color: white; padding: 15px 25px;  border-radius: 16px; 
+text-decoration: none;" target="_blank" href={{instalink}}>Download</a>
+<p id="instanote"><strong>Note! </strong> We are not saving any of your personal information. We ensure you of that.</p>
+
+
+<form class="fbform" id="downloadFb" action="/VideoDownloader/downloadFb" method="POST" >
+{% csrf_token %}
+<label for="fblink">Paste Link:</label>
+<input type="text" id="fblink" class="fblink" name="fblink"><br><br>
+<button type="submit">Proceed</button><br>
+<br><br>
+</form>
+<p class="error">{{error}}</p>
+<a class="fbbutton" style=" background-color: #0044ff; color: white; padding: 15px 25px;  border-radius: 16px; 
+text-decoration: none;" target="_blank" href={{fblink}}>Download</a><br>
+<p id="fbnote"><strong>Note! </strong> Use Chrome Browser and Sign in to Facebook in your browser to use the Facebook downloader</p>
+</div>
+
+
+<script type="text/javascript">
+ 
+$(document).ready(function() {
+$('#instanote').hide(); 
+$('#fbnote').hide(); 
+$('.instaform').hide();  
+$('.fbform').hide();
+var get = $('.error').val();
+
+    if(get=='')
+    {
+       $('.error').hide();  
+    }
+
+var get = $('.fbbutton').attr('href');
+
+    if(get=='')
+    {
+       $('.fbbutton').hide();  
+    }
+
+
+var get = $('.instabutton').attr('href');
+    if(get=='')
+    {
+        $('.instabutton').hide();  
+    }   
+
+   
+$('#facebook').click(function () {
+        $('.instabutton').hide();
+        $('.instaform').hide(); 
+        $('#instanote').hide();  
+        $('.fbform').show('fast');
+        $('#fbnote').show('fast'); 
+    	});
+
+$('#instagram').click(function () {
+       $('#fbnote').hide(); 
+       $('.fbform').hide(); 
+       $('.fbbutton').hide();
+       $('.instaform').show('fast');
+       $('#instanote').show(); 
+    	});
+
+
+
+function getCookie(c_name)
+{
+    if (document.cookie.length > 0)
+    {
+        c_start = document.cookie.indexOf(c_name + "=");
+        if (c_start != -1)
+        {
+            c_start = c_start + c_name.length + 1;
+            c_end = document.cookie.indexOf(";", c_start);
+            if (c_end == -1) c_end = document.cookie.length;
+            return unescape(document.cookie.substring(c_start,c_end));
+        }
+    }
+    return "";
+ }
+
+
+
+$('.instaform').submit(function(event){
+          event.preventDefault();
+      
+        value=$('#instalink').val();
+        username=$('#username').val();
+         password=$('#password').val();
+        console.log(username);
+       
+      var action =function(d){
+        $('.error').show();
+      };
+        $.ajax({
+          method:"POST",
+         headers: { "X-CSRFToken": getCookie("csrftoken") },
+          url:"/VideoDownloader/downloadinsta",
+          data:{'link': value,'username':username,'password':password},
+          success:function (data){
+            
+            alert("Your link is in process!");
+            var obj = JSON.parse(data);
+
+           if(obj.instalink!="")
+           {
+               $('.instabutton').attr('href',obj.instalink);
+               $('.instabutton').show();  
+              $('.error').hide();
+               
+           }
+           else 
+           {
+             $('.error').text(obj.error);
+             $('.instabutton').hide();
+             $('.error').show();
+           }
+          
+        },
+        
+          error:action
+  
+        });
+      
+      });
+
+
+
+
+
+$('#downloadFb').submit(function(event){
+          event.preventDefault();
+      
+        value=$('.fblink').val();
+        console.log(value);
+       
+      var action =function(d){
+        $('.error').show();
+      };
+        $.ajax({
+          method:"POST",
+         headers: { "X-CSRFToken": getCookie("csrftoken") },
+          url:"/VideoDownloader/downloadFb",
+          data:{'link': value},
+          success:function (data){
+            
+            alert("Your video is in process!");
+            var obj = JSON.parse(data);
+
+           if(obj.fblink!="")
+           {
+               $('.fbbutton').attr('href',obj.fblink);
+               $('.fbbutton').show();  
+              $('.error').hide();
+               
+           }
+           else 
+           {
+             $('.error').text(obj.error);
+             $('.fbbutton').hide();
+             $('.error').show();
+           }
+          
+        },
+        
+          error:action
+  
+        });
+      
+      });
+});
+
+
+</script>
+
+
+</body>
+
+
+</html>

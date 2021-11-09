@@ -1,0 +1,4 @@
+beautifulsoup4==4.10.0
+Django==3.2.7
+instaloader==4.8.1
+requests==2.26.0

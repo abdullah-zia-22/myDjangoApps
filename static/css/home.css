@@ -1,0 +1,33 @@
+.leftbox {
+    float:left; 
+    text-align :center;
+    width:35%;
+  
+}
+.middlebox{
+    margin-left: 1pc;
+ 
+    float:left; 
+    text-align :center;
+    width:30%;
+  
+}
+.rightbox{
+    float:right;
+    text-align :center;
+    width:30%;
+    
+}
+
+img {
+    float: left;
+    width:  512px;
+    height: 512px;
+    margin-bottom: 5pc;
+    background-size: cover;
+}
+
+a.button{
+    background-color: #0044ff; color: white; padding: 15px 25px;  border-radius: 16px; 
+     text-decoration: none;
+}

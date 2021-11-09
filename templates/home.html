@@ -1,0 +1,31 @@
+{% load static %}
+
+<!DOCTYPE html>
+<head>
+<title>Home Page</title>
+<link href="{% static "/css/home.css" %}" rel="stylesheet" />
+<link rel = "icon" href = "{% static "/images/home.ico" %}"type = "image/x-icon">
+</head>
+<body>
+
+<div class="leftbox">
+ <img src="{%static '/images/imageEnhancer.png' %}" style="width:100%"><br><br> 
+  <a class="button"  target="_blank" href="{% url 'EnhanceImage:index' %}">Image Enhancer</a>
+</div>
+
+<div class="middlebox">
+ <img src="{%static '/images/VideoDownloader.png' %}" style="width:100%"><br><br>
+  <a class="button"  target="_blank" href="{% url 'VideoDownloader:index' %}">FB/Insta Downloader</a>
+</div>
+
+
+<div class="rightbox">
+ <img src="{%static '/images/YTDownloader.png' %}" style="width:100%"><br><br> 
+  <a class="button" target="_blank" href="https://ytmp3.cc/">Youtube Downloader</a>
+</div>
+
+
+</body>
+
+
+</html>
