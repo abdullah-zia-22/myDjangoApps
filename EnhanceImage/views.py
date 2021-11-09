@@ -29,7 +29,7 @@ def SuperRes(request):
         files={
             'image': open(image,'rb')
         },
-        headers={'api-key': '160d0ed1-709d-4de2-be35-7b5a62faf9f3'}
+        headers={'api-key': '#your API Key'}
         )
 
         Image.objects.all().delete()
@@ -57,7 +57,7 @@ def waifu(request):
                 files={
                     'image': open(image,'rb')
                 },
-                headers={'api-key': '160d0ed1-709d-4de2-be35-7b5a62faf9f3'}
+                headers={'api-key': '#your API Key'}
                 )
 
                 Image.objects.all().delete()
@@ -84,7 +84,7 @@ def toonify(request):
                     files={
                         'image': open(image,'rb')
                     },
-                    headers={'api-key': '160d0ed1-709d-4de2-be35-7b5a62faf9f3'}
+                    headers={'api-key': '#your API Key'}
                     )
 
                     Image.objects.all().delete()
